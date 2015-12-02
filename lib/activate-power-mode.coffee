@@ -49,7 +49,7 @@ module.exports = ActivatePowerMode =
     @throttledShake()
 
   shake: ->
-    intensity = 1 + 2 * Math.random()
+    intensity = 0 + 0 * Math.random()
     x = intensity * (if Math.random() > 0.5 then -1 else 1)
     y = intensity * (if Math.random() > 0.5 then -1 else 1)
 
@@ -69,7 +69,7 @@ module.exports = ActivatePowerMode =
     top += cursorOffset.top - @editor.getScrollTop()
 
     color = @getColorAtPosition left, top
-    numParticles = 5 + Math.round(Math.random() * 10)
+    numParticles = 5 + Math.round(Math.random() * 50)
     while numParticles--
       part =  @createParticle left, top, color
       @particles[@particlePointer] = part
@@ -84,8 +84,30 @@ module.exports = ActivatePowerMode =
 
     if el
       getComputedStyle(el).color
+      "rgb(" + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + ")"
     else
       "rgb(255, 255, 255)"
+
+
+  generateRandomColor: (mix) ->
+    red = Math.random() * 256 >> 0
+    green = Math.random() * 256 >> 0
+    blue = Math.random() * 256 >> 0
+
+    if mix != null
+      red = (red + mix.red) / 2 >> 0
+      green = (green + mix.green) / 2 >> 0
+      blue = (blue + mix.blue) / 2 >> 0
+    rr = red.toString(16)
+    if rr.length == 1
+      rr = '0' + rr[0]
+    gg = green.toString(16)
+    if gg.length == 1
+      gg = '0' + gg[0]
+    bb = blue.toString(16)
+    if bb.length == 1
+      bb = '0' + bb[0]
+    '#' + rr + gg + bb
 
   createParticle: (x, y, color) ->
     x: x
@@ -94,7 +116,7 @@ module.exports = ActivatePowerMode =
     color: color
     velocity:
       x: -1 + Math.random() * 2
-      y: -3.5 + Math.random() * 2
+      y: -3.5 + Math.random() * 2.5
 
   drawParticles: ->
     requestAnimationFrame @drawParticles.bind(this)
